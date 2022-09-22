@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>TO-DO LIST</title>
+	<link rel="stylesheet" href="./style.css">
+
+</head>
+
+<body>
+	<div class="wrapper">
+		<article class="todo__container">
+			<header class="header">
+				<figure class="figure">
+					<img src="https://images.pexels.com/photos/7818110/pexels-photo-7818110.jpeg?cs=srgb&dl=pexels-olya-kobruseva-7818110.jpg&fm=jpg"
+						alt="">
+					<figcaption class="title__caption">
+						<h1 class="title title--primary">DO</h1>
+						<h2 class="title title--secondary">ME</h2>
+					</figcaption>
+				</figure>
+			</header>
+			<div>
+				<input id="topic" type="text" placeholder="add topic">
+				<button id="add">save</button>
+			</div>
+			<section class="content">
+
+				<ul class="list__container list__container--primary">
+					<li class="list__item list__item--primary">
+						<input type="checkbox" id="list-input1" class="list-input1">
+						<label for="list-input1" class="list-input-label">
+							<span class="text--primary">KALUMENDO
+								<span>+</span>
+							</span>
+							<span class="icon"><i class="fas fa-check"></i></span>
+						</label>
+
+						<ul class="list__container list__container--secondary">
+							<li class="list__item list__item--secondary">
+								<span class="text--secondary">Staff</span>
+							</li>
+							<li class="list__item list__item--secondary">
+								<span class="text--secondary">Board of investors</span>
+							</li>
+							<li class="list__item list__item--secondary">
+								<span class="text--secondary">Sales Reps</span>
+							</li>
+							<li class="list__item list__item--secondary">
+								<span class="text--secondary">Realestate Malibu</span>
+							</li>
+							<li class="list__item list__item--secondary">
+								<span class="text--secondary">Milano Fashion week</span>
+							</li>
+						</ul>
+					</li>
+					<li class="list__item list__item--primary">
+						<input type="checkbox" id="list-input3" class="list-input3">
+						<label for="list-input3" class="list-input-label">
+							<span class="text--primary">Code
+								<span>+</span>
+							</span>
+							<span class="icon"><i class="fas fa-check"></i></span>
+						</label>
+						<ul class="list__container list__container--secondary">
+							<li class="list__item list__item--secondary">
+								<span class="text--secondary">modern CSS</span>
+							</li>
+							<li class="list__item list__item--secondary">
+								<span class="text--secondary">Flex or Grid</span>
+							</li>
+							<li class="list__item list__item--secondary">
+								<span class="text--secondary">maybe some JS</span>
+							</li>
+							<li class="list__item list__item--secondary">
+								<span class="text--secondary">variables</span>
+							</li>
+							<li class="list__item list__item--secondary">
+								<span class="text--secondary">Logical properties</span>
+							</li>
+						</ul>
+					</li>
+					<li class="list__item list__item--primary">
+						<input type="checkbox" id="list-input2" class="list-input2">
+						<label for="list-input2" class="list-input-label">
+							<span class="text--primary">Do my Taxes</span>
+							<span class="icon"><i class="fas fa-check"></i></span>
+						</label>
+					</li>
+					<li class="list__item list__item--primary">
+						<input type="checkbox" id="list-input4" class="list-input4">
+						<label for="list-input4" class="list-input-label">
+							<span class="text--primary">Ship my ETSY orders at 12 PM</span>
+							<span class="icon"><i class="fas fa-check"></i></span>
+						</label>
+					</li>
+					<li class="list__item list__item--primary">
+						<input type="checkbox" id="list-input5" class="list-input5">
+						<label for="list-input5" class="list-input-label">
+							<span class="text--primary">Launch my clothing brand</span>
+							<span class="icon"><i class="fas fa-check"></i></span>
+						</label>
+					</li>
+					<li class="list__item list__item--primary">
+						<input type="checkbox" id="list-input6" class="list-input6">
+						<label for="list-input6" class="list-input-label">
+							<span class="text--primary">Play Basket Ball with mates</span>
+							<span class="icon"><i class="fas fa-check"></i></span>
+						</label>
+					</li>
+				</ul>
+			</section>
+		</article>
+	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+		integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script>
+		var allTopic = [];
+		$(function () {
+			// Handler for .ready() called.
+			allTopic = localStorage.getItem('topics');
+			allTopic = JSON.parse(allTopic);
+			console.log(allTopic)
+			allTopic.forEach(element => {
+				$('.list__container').prepend(element.value);
+			});
+		});
+		var addTopic = document.getElementById("add");
+		addTopic.addEventListener('click', function (event) {
+			//lert("test");
+			var topic = $('#topic').val();
+			var output = `
+			<li class="list__item list__item--primary">
+						<input type="checkbox" id="${Date.now().toLocaleString().replaceAll(',', '_')}" class="${Date.now().toLocaleString().replace(',', '_')}">
+						<label for="${Date.now().toLocaleString().replace(',', '_')}" class="list-input-label">
+							<span class="text--primary">${topic}
+								<span>+</span>
+							</span>
+							<span class="icon"><i class="fas fa-check"></i></span>
+						</label>
+					</li>
+			`;
+			//alert(topic);
+			var myTopic = {
+				value: output,
+				done: false
+			}
+			console.log(myTopic)
+			allTopic = localStorage.getItem('topics');
+			if (!allTopic) {
+				localStorage.setItem('topics', JSON.stringify([myTopic]));
+			} else {
+				allTopic = JSON.parse(allTopic);
+				allTopic.push(myTopic);
+				localStorage.setItem('topics', JSON.stringify(allTopic));
+			}
+
+			$('.list__container').prepend(output);
+		});
+	</script>
+
+</body>
+
+</html>
